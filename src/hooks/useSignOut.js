@@ -1,23 +1,35 @@
+
 import toast from "react-hot-toast";
 import { auth } from "../firebase/config";
 import { signOut } from "firebase/auth";
 import { useState } from "react";
+import { logOut } from "../app/features/userSlice";
+import { useDispatch } from "react-redux";
+import { useFirestore } from "./useFirestore";
 
-export const useSignOut = () =>{
-    const [isPending, setIsPending] = useState(false)
+export const useSignOut = () => {
+    const [isPending, setIsPending] = useState(false);
+    const dispatch = useDispatch();
+    const { updateDocument } = useFirestore("users");
 
-    const signout = async () =>{
-        try{
+    const signout = async () => {
+        try {
             setIsPending(true);
+            if (!auth.currentUser) {
+                throw new Error("Foydalanuvchi tizimga kirmagan");
+            }
+            await updateDocument(auth.currentUser.uid,  false );
             await signOut(auth);
-            toast.success('See you soon');
+            dispatch(logOut());
 
-        } catch (error){
+            toast.success("See you soon");
+        } catch (error) {
             toast.error(error.message);
-            console.log(error.message);
-        }finally{
-            setIsPending(false)
+            console.error("Sign out error:", error);
+        } finally {
+            setIsPending(false);
         }
-    }
-    return {signout, isPending}
-}
+    };
+
+    return { signout, isPending };
+};

@@ -1,18 +1,24 @@
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase/config";
+import { authReady, login } from "./app/features/userSlice";
 
 import MainLayout from "./layouts/MainLayout";
-
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProtectedRoutes from "./components/ProtectedRoutes";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import {isAuthReady} from './app/features/userSlice'
 
 function App() {
-  const { user } = useSelector((store) => store.user);
+  const dispatch = useDispatch();
+  const { user, isAuthReady } = useSelector((store) => store.user);
+
+  useEffect(() => {
+    return () => unsubscribe()
+  }, [dispatch]);
+
   const routes = createBrowserRouter([
     {
       path: "/",
@@ -47,8 +53,7 @@ function App() {
     })
   }, [])
 
-
-  return<>{isAuthReady && <RouterProvider router={routes} />}</>;
+  return <>{isAuthReady && <RouterProvider router={routes} />}</>;
 }
 
 export default App;

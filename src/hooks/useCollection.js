@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { db } from "../firebase/config";
 
 export function useCollection(c) {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, c), (snapshot) => {
       const data = [];
@@ -17,7 +17,7 @@ export function useCollection(c) {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [c]);
 
   return { data };
 }
