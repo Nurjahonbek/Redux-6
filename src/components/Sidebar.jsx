@@ -40,7 +40,7 @@ function Sidebar() {
 
   return (
     <div className="col-start-1 col-end-3 bg-gradient-to-r to-blue-100 via-indigo-100 from-teal-100 p-6 rounded-lg shadow-md flex flex-col items-center pt-10 h-full">
-      <div className="w-full max-w-xs">
+      <div className="w-full items-center flex justify-center">
         <Avatar user={user} />
       </div>
       <div className="flex flex-col space-y-3 mt-auto mb-6">
