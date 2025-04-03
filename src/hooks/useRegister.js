@@ -31,10 +31,9 @@ export const useRegister = () =>{
         })
         dispatch(login(user))
         setData(user)
+        toast.success(`Welcome ${user.displayName}`)
 
         } catch (error) {
-            console.log(error);
-            toast.error(error.message)
 
         }finally{
             setIsPending(false)

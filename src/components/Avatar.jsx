@@ -7,7 +7,7 @@ function Avatar({ user }) {
         <img src={photoURL} alt={displayName} className="w-full h-full object-cover" />
       </div>
       <p className="text-md font-medium  text-gray-800 opacity-80 mt-2">Hello</p>
-      <h3 className="text-xl font-bold text-gray-800">{displayName}</h3>
+      <h3 className="text-xl font-bold text-gray-800">{user.displayName}</h3>
     </div>
   );
 }

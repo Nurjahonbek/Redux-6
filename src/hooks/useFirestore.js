@@ -1,4 +1,4 @@
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useEffect, useReducer, useState } from "react";
 import toast from "react-hot-toast";
@@ -38,7 +38,6 @@ export function useFirestore(c) {
     try {
       await setDoc(doc(db, c, id), data);
       isNotCanceled({ type: "ADD_DATA", payload: data });
-      toast.success("Data successfully added!");
     } catch (error) {
       isNotCanceled({ type: "ERROR", payload: error.message });
       toast.error(error.message);
@@ -51,16 +50,41 @@ export function useFirestore(c) {
     try {
       await updateDoc(userRef, { isOnline });
       isNotCanceled({ type: "ADD_DATA", payload: { isOnline } });
-      toast.success("Data successfully updated!");
     } catch (error) {
       isNotCanceled({ type: "ERROR", payload: error.message });
       toast.error(error.message);
     }
   };
 
+  const addTask = async (data) =>{
+    isNotCanceled({
+      type: "IS_PENDING",
+      payload:true,
+    });
+    try{
+      await addDoc(collection(db, c), data);
+      toast.success('Document added');
+
+    }
+    catch(error){
+      toast.error(error.message)
+      isNotCanceled({
+        type: "ERROR",
+        payload: error.message,
+      });
+
+    }
+    finally{
+      isNotCanceled({
+        type: "IS_PENDING",
+        payload: false,
+      })
+    }
+  }
+
   useEffect(() => {
     return () => setIsCanceled(true);
   }, []);
 
-  return { addDocument, updateDocument, ...state };
+  return { ...state, addDocument, updateDocument, addTask };
 }

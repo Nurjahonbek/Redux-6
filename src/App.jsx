@@ -10,6 +10,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import Create from "./pages/Create";
+import Task from "./pages/Task";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,6 +34,14 @@ function App() {
           index: true,
           element: <Home />,
         },
+        {
+          path: '/create',
+          element: <Create/>
+        },
+        {
+          path: '/task/:id',
+          element: <Task/>
+        }
       ],
     },
     {

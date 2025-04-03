@@ -21,6 +21,7 @@ export const useLogin = () =>{
             dispatch(_login(user))
             setData(user)
             await updateDocument(auth.currentUser.uid, true)
+            toast.success(`Welcome back ${user.displayName}`)
         } catch (error) {
             toast.error(error.message)
         }

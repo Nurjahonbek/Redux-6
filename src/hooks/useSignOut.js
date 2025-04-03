@@ -24,8 +24,8 @@ export const useSignOut = () => {
 
             toast.success("See you soon");
         } catch (error) {
-            toast.error(error.message);
-            console.error("Sign out error:", error);
+            console.log(error);
+            
         } finally {
             setIsPending(false);
         }
