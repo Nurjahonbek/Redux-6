@@ -1,2 +1,25 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+body {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../public/benjamin-voros-phIFdC6lA4E-unsplash.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: blur(3px) brightness(0.99);
+    z-index: -1;
+  }

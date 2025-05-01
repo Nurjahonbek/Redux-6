@@ -1,29 +1,31 @@
-import {doc, getDoc} from 'firebase/firestore'
-import { useEffect, useState } from 'react'
-import { db } from '../firebase/config'
-import toast from 'react-hot-toast'
+import { doc, onSnapshot } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { db } from "../firebase/config";
 
+export const useDocument = (c, id) => {
+  const [isPending, setIsPending] = useState(true);
+  const [data, setData] = useState(null);
 
-export const useDocument = (c,  id) =>{
-    const [isPending, setIsPending] = useState(false)
-    const [data, setData] = useState(false)
-    useEffect(() => {
-        const getDocument = async () => {
-            const docRef = doc(db, c, id);
-            setIsPending(true)
-            const docSnap = await getDoc(docRef);
+  useEffect(() => {
 
-            if(docSnap.exists()){
-                setData(docSnap.data())
-            }
-            else{
-                toast.error('NO such document')
-
-            }
-            setIsPending(false)
-
+    const unsub = onSnapshot(
+      doc(db, c, id),
+      (doc) => {
+        if (doc.exists()) {
+          setData({ id: doc.id, ...doc.data() });
+        } else {
+          setData(null);
         }
-        getDocument()
-    }, [c, id])
-    return {data, isPending}
-}
+        setIsPending(false);
+      },
+      (err) => {
+        setIsPending(false);
+      }
+    );
+
+
+    return () => unsub();
+  }, [c, id]);
+
+  return { data, isPending, c};
+};

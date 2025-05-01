@@ -5,7 +5,7 @@ import { useCollection } from "../hooks/useCollection";
 
 function Dashboard() {
   const { user } = useSelector((store) => store.user);
-  const { data } = useCollection("tasks", ["uid", "==", user.uid]);
+  const { data } = useCollection("tasks");
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-indigo-100 p-10">

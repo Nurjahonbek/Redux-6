@@ -48,7 +48,7 @@ export function useFirestore(c) {
     const userRef = doc(db, c, id);
     isNotCanceled({ type: "IS_PENDING" });
     try {
-      await updateDoc(userRef, { isOnline });
+      await updateDoc(userRef,  {isOnline});
       isNotCanceled({ type: "ADD_DATA", payload: { isOnline } });
     } catch (error) {
       isNotCanceled({ type: "ERROR", payload: error.message });
